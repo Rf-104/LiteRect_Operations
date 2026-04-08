@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiteRect User Guide | 用户指南</title>
+    <style>
+        :root {
+            --primary-color: #0078D4; 
+            --bg-color: #F8F9FA;
+            --text-color: #333;
+            --card-bg: #FFFFFF;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        /* 商店下载按钮样式 */
+        .store-btn-container {
+            margin-bottom: 30px;
+        }
+
+        .store-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #111;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .store-btn:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .store-btn svg {
+            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .lang-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .btn {
+            background-color: #E1DFDD;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            color: #333;
+        }
+
+        .btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p {
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+        
+        .gif-container {
+            width: 100%;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border: 1px solid #e1e1e1;
+        }
+
+        .en { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>LiteRect</h1>
+        <div class="subtitle zh">沉浸式桌面收纳引擎 用户指南</div>
+        <div class="subtitle en">Minimalist Desktop Organization Engine User Guide</div>
+        
+        <div class="store-btn-container">
+            <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn zh">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/>
+                </svg>
+                在 Microsoft Store 中获取
+            </a>
+            <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn en">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/>
+                </svg>
+                Get it from Microsoft Store
+            </a>
+        </div>
+    </header>
+
+    <div class="lang-toggle">
+        <button class="btn active" id="btn-zh" onclick="switchLang('zh')">中文</button>
+        <button class="btn" id="btn-en" onclick="switchLang('en')">English</button>
+    </div>
+
+    <div class="card">
+        <h2 class="zh">🚀 万物皆可拖拽</h2>
+        <h2 class="en">🚀 Drag & Drop Everything</h2>
+        <p class="zh">无需复杂设置，将桌面上的任意文件、庞大的文件夹或浏览器网址直接拖入半透明网格中，LiteRect 会在底层自动且安全地为您生成快捷方式。</p>
+        <p class="en">No complex setups. Drag any files, massive folders, or web URLs directly into the translucent grid. LiteRect safely generates shortcuts in the background automatically.</p>
+        <div class="gif-container">
+            <img src="src/1.gif" alt="Drag and Drop Feature">
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="zh">✨ 智能隐形与自由布局</h2>
+        <h2 class="en">✨ Smart Auto-Hide & Movement</h2>
+        <p class="zh">您可以自由拖拽移动收纳框。开启“自动隐藏”后，鼠标移开，网格温柔隐入壁纸；鼠标滑过，瞬间浮现。它绝不打扰您的全屏游戏或观影体验。</p>
+        <p class="en">Freely move grids anywhere. Enable "Auto-hide" to let the grid fade smoothly into your wallpaper when inactive, appearing only when you hover over it. Zero interruptions during gaming.</p>
+        <div class="gif-container">
+            <img src="src/2.gif" alt="Auto Hide and Movement">
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="zh">🎨 像素级个性化定制</h2>
+        <h2 class="en">🎨 Pixel-Perfect Customization</h2>
+        <p class="zh">右键点击网格空白处，即可唤出原生设置菜单。支持 48px 到 96px 图标大小精细调节，支持每行 3 到 9 个图标的灵活排版，更可随心调节背景透明度。</p>
+        <p class="en">Right-click on any empty grid space to access native settings. Adjust icon sizes (48px-96px), change grid layouts (3-9 per row), and tweak background transparency to match your aesthetic.</p>
+        <div class="gif-container">
+            <img src="src/3.gif" alt="Customization Settings">
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="zh">🗂️ 无限独立工作流</h2>
+        <h2 class="en">🗂️ Infinite Workspaces</h2>
+        <p class="zh">在系统右下角托盘图标处右键选择“新建收纳窗口”，即可创建无限个整理空间。您可以为“游戏”、“工作”分别创建独立的收纳框，彼此物理隔离，互不干扰。</p>
+        <p class="en">Right-click the tray icon to create new, independent windows. Set up isolated workspaces for "Gaming" or "Work" to build your ultimate desktop workflow without interference.</p>
+        <div class="gif-container">
+            <img src="src/4.gif" alt="Multiple Workspaces">
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchLang(lang) {
+        document.getElementById('btn-zh').classList.remove('active');
+        document.getElementById('btn-en').classList.remove('active');
+        document.getElementById('btn-' + lang).classList.add('active');
+
+        const zhElements = document.querySelectorAll('.zh');
+        const enElements = document.querySelectorAll('.en');
+
+        if (lang === 'zh') {
+            zhElements.forEach(el => el.style.display = 'block');
+            enElements.forEach(el => el.style.display = 'none');
+        } else {
+            zhElements.forEach(el => el.style.display = 'none');
+            enElements.forEach(el => el.style.display = 'block');
+        }
+    }
+</script>
+
+</body>
+</html>
