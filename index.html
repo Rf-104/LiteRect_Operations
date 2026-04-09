@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiteRect User Guide | 用户指南</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
             --primary-color: #0078D4; 
             --bg-color: #F8F9FA;
+            --sidebar-bg: #FFFFFF;
             --text-color: #333;
             --card-bg: #FFFFFF;
             --border-radius: 12px;
+            --border-color: #eaeaea;
         }
 
         body {
@@ -19,26 +22,80 @@
             color: var(--text-color);
             line-height: 1.6;
             margin: 0;
-            padding: 0;
+            /* 为 fixed 侧边栏预留左侧空间 */
+            padding: 0 0 0 260px; 
             display: flex;
-            justify-content: center;
+            /* 让主内容区在预留后的剩余空间里完美居中 */
+            justify-content: center; 
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 800px;
+        /* 侧边导航栏样式 */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            position: fixed;
+            left: 0; 
+            top: 0;  
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.02);
+            z-index: 100;
+            box-sizing: border-box; 
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            color: #555;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background-color: #f0f4f8;
+            color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background-color: #e5f1fb;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* 主内容区样式 */
+        .main-content {
             width: 100%;
-            padding: 40px 20px;
+            max-width: 860px;
+            padding: 40px;
+            box-sizing: border-box;
         }
 
         header {
-            text-align: center;
             margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
         }
 
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             color: #111;
+            margin-top: 0;
         }
 
         .subtitle {
@@ -49,7 +106,7 @@
 
         /* 商店下载按钮样式 */
         .store-btn-container {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .store-btn {
@@ -81,19 +138,17 @@
 
         .lang-toggle {
             display: flex;
-            justify-content: center;
             gap: 10px;
             margin-bottom: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eaeaea;
         }
 
         .btn {
             background-color: #E1DFDD;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 16px;
             cursor: pointer;
+            font-size: 0.9rem;
             font-weight: 600;
             transition: all 0.2s;
             color: #333;
@@ -104,16 +159,18 @@
             color: white;
         }
 
-        .card {
+        /* 统一卡片样式（用于首页、MD渲染等） */
+        .content-card {
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 30px;
+            padding: 35px;
             margin-bottom: 30px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid #eaeaea;
+            border: 1px solid var(--border-color);
         }
 
-        .card h2 {
+        /* 针对首页面板的特殊样式 */
+        .feature-card h2 {
             margin-top: 0;
             color: var(--primary-color);
             border-bottom: 2px solid #f0f0f0;
@@ -123,7 +180,7 @@
             gap: 10px;
         }
 
-        .card p {
+        .feature-card p {
             font-size: 1.05rem;
             margin-bottom: 20px;
         }
@@ -142,18 +199,98 @@
             border: 1px solid #e1e1e1;
         }
 
+        /* Markdown 渲染后的通用样式排版 */
+        .markdown-body h1, .markdown-body h2 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 24px;
+        }
+        .markdown-body h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+        .markdown-body p {
+            margin-bottom: 16px;
+        }
+        .markdown-body ul, .markdown-body ol {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+        .markdown-body code {
+            background-color: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
         .en { display: none; }
+        
+        /* 错误提示样式 */
+        .error-msg {
+            color: #d32f2f;
+            background-color: #fde0dc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #f9bdbb;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            body { 
+                padding-left: 0; 
+                display: block;  
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 15px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .main-content {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+<nav class="sidebar">
+    <div class="sidebar-logo">LiteRect</div>
+    
+    <div class="lang-toggle" style="justify-content: center; margin-bottom: 20px;">
+        <button class="btn active" id="btn-zh" onclick="switchLang('zh')">中文</button>
+        <button class="btn" id="btn-en" onclick="switchLang('en')">English</button>
+    </div>
+
+    <div class="zh">
+        <a class="nav-item active" onclick="loadContent('home', this)">🏠 首页：用户指南</a>
+        <a class="nav-item" onclick="loadContent('注意事项.md', this)">⚠️ 注意事项</a>
+        <a class="nav-item" onclick="loadContent('已知问题解决方案.md', this)">🛠️ 已知问题解决方案</a>
+    </div>
+
+    <div class="en">
+        <a class="nav-item active" onclick="loadContent('home', this)">🏠 Home: User Guide</a>
+        <a class="nav-item" onclick="loadContent('注意事项.md', this)">⚠️ Precautions</a>
+        <a class="nav-item" onclick="loadContent('已知问题解决方案.md', this)">🛠️ Troubleshooting</a>
+    </div>
+</nav>
+
+<div class="main-content">
     <header>
-        <h1>LiteRect</h1>
-        <div class="subtitle zh">沉浸式桌面收纳引擎 用户指南</div>
-        <div class="subtitle en">Minimalist Desktop Organization Engine User Guide</div>
+        <h1 id="page-title" class="zh">用户指南</h1>
+        <h1 id="page-title-en" class="en">User Guide</h1>
         
-        <div class="store-btn-container">
+        <div class="subtitle zh" id="page-subtitle">沉浸式桌面收纳引擎</div>
+        <div class="subtitle en" id="page-subtitle-en">Minimalist Desktop Organization Engine</div>
+        
+        <div class="store-btn-container" id="store-download-area">
             <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn zh">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/>
@@ -169,54 +306,60 @@
         </div>
     </header>
 
-    <div class="lang-toggle">
-        <button class="btn active" id="btn-zh" onclick="switchLang('zh')">中文</button>
-        <button class="btn" id="btn-en" onclick="switchLang('en')">English</button>
-    </div>
+    <div id="content-area">
+        <div id="home-content">
+            <div class="content-card feature-card">
+                <h2 class="zh">🚀 万物皆可拖拽</h2>
+                <h2 class="en">🚀 Drag & Drop Everything</h2>
+                <p class="zh">无需复杂设置，将桌面上的任意文件、庞大的文件夹或浏览器网址直接拖入半透明网格中，LiteRect 会在底层自动且安全地为您生成快捷方式。</p>
+                <p class="en">No complex setups. Drag any files, massive folders, or web URLs directly into the translucent grid. LiteRect safely generates shortcuts in the background automatically.</p>
+                <div class="gif-container">
+                    <img src="src/1.gif" alt="Drag and Drop Feature">
+                </div>
+            </div>
 
-    <div class="card">
-        <h2 class="zh">🚀 万物皆可拖拽</h2>
-        <h2 class="en">🚀 Drag & Drop Everything</h2>
-        <p class="zh">无需复杂设置，将桌面上的任意文件、庞大的文件夹或浏览器网址直接拖入半透明网格中，LiteRect 会在底层自动且安全地为您生成快捷方式。</p>
-        <p class="en">No complex setups. Drag any files, massive folders, or web URLs directly into the translucent grid. LiteRect safely generates shortcuts in the background automatically.</p>
-        <div class="gif-container">
-            <img src="src/1.gif" alt="Drag and Drop Feature">
-        </div>
-    </div>
+            <div class="content-card feature-card">
+                <h2 class="zh">✨ 智能隐形与自由布局</h2>
+                <h2 class="en">✨ Smart Auto-Hide & Movement</h2>
+                <p class="zh">您可以自由拖拽移动收纳框。开启“自动隐藏”后，鼠标移开，网格温柔隐入壁纸；鼠标滑过，瞬间浮现。它绝不打扰您的全屏游戏或观影体验。</p>
+                <p class="en">Freely move grids anywhere. Enable "Auto-hide" to let the grid fade smoothly into your wallpaper when inactive, appearing only when you hover over it. Zero interruptions during gaming.</p>
+                <div class="gif-container">
+                    <img src="src/2.gif" alt="Auto Hide and Movement">
+                </div>
+            </div>
 
-    <div class="card">
-        <h2 class="zh">✨ 智能隐形与自由布局</h2>
-        <h2 class="en">✨ Smart Auto-Hide & Movement</h2>
-        <p class="zh">您可以自由拖拽移动收纳框。开启“自动隐藏”后，鼠标移开，网格温柔隐入壁纸；鼠标滑过，瞬间浮现。它绝不打扰您的全屏游戏或观影体验。</p>
-        <p class="en">Freely move grids anywhere. Enable "Auto-hide" to let the grid fade smoothly into your wallpaper when inactive, appearing only when you hover over it. Zero interruptions during gaming.</p>
-        <div class="gif-container">
-            <img src="src/2.gif" alt="Auto Hide and Movement">
-        </div>
-    </div>
+            <div class="content-card feature-card">
+                <h2 class="zh">🎨 像素级个性化定制</h2>
+                <h2 class="en">🎨 Pixel-Perfect Customization</h2>
+                <p class="zh">右键点击网格空白处，即可唤出原生设置菜单。支持 48px 到 96px 图标大小精细调节，支持每行 3 到 9 个图标的灵活排版，更可随心调节背景透明度。</p>
+                <p class="en">Right-click on any empty grid space to access native settings. Adjust icon sizes (48px-96px), change grid layouts (3-9 per row), and tweak background transparency to match your aesthetic.</p>
+                <div class="gif-container">
+                    <img src="src/3.gif" alt="Customization Settings">
+                </div>
+            </div>
 
-    <div class="card">
-        <h2 class="zh">🎨 像素级个性化定制</h2>
-        <h2 class="en">🎨 Pixel-Perfect Customization</h2>
-        <p class="zh">右键点击网格空白处，即可唤出原生设置菜单。支持 48px 到 96px 图标大小精细调节，支持每行 3 到 9 个图标的灵活排版，更可随心调节背景透明度。</p>
-        <p class="en">Right-click on any empty grid space to access native settings. Adjust icon sizes (48px-96px), change grid layouts (3-9 per row), and tweak background transparency to match your aesthetic.</p>
-        <div class="gif-container">
-            <img src="src/3.gif" alt="Customization Settings">
+            <div class="content-card feature-card">
+                <h2 class="zh">🗂️ 无限独立工作流</h2>
+                <h2 class="en">🗂️ Infinite Workspaces</h2>
+                <p class="zh">在系统右下角托盘图标处右键选择“新建收纳窗口”，即可创建无限个整理空间。您可以为“游戏”、“工作”分别创建独立的收纳框，彼此物理隔离，互不干扰。</p>
+                <p class="en">Right-click the tray icon to create new, independent windows. Set up isolated workspaces for "Gaming" or "Work" to build your ultimate desktop workflow without interference.</p>
+                <div class="gif-container">
+                    <img src="src/4.gif" alt="Multiple Workspaces">
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="card">
-        <h2 class="zh">🗂️ 无限独立工作流</h2>
-        <h2 class="en">🗂️ Infinite Workspaces</h2>
-        <p class="zh">在系统右下角托盘图标处右键选择“新建收纳窗口”，即可创建无限个整理空间。您可以为“游戏”、“工作”分别创建独立的收纳框，彼此物理隔离，互不干扰。</p>
-        <p class="en">Right-click the tray icon to create new, independent windows. Set up isolated workspaces for "Gaming" or "Work" to build your ultimate desktop workflow without interference.</p>
-        <div class="gif-container">
-            <img src="src/4.gif" alt="Multiple Workspaces">
-        </div>
+        
+        <div id="md-content" class="content-card markdown-body" style="display: none;"></div>
     </div>
 </div>
 
 <script>
+    // 当前选择的语言状态
+    let currentLang = 'zh';
+
+    // 语言切换逻辑
     function switchLang(lang) {
+        currentLang = lang;
         document.getElementById('btn-zh').classList.remove('active');
         document.getElementById('btn-en').classList.remove('active');
         document.getElementById('btn-' + lang).classList.add('active');
@@ -231,6 +374,91 @@
             zhElements.forEach(el => el.style.display = 'none');
             enElements.forEach(el => el.style.display = 'block');
         }
+    }
+
+    // 导航与内容加载逻辑
+    function loadContent(target, element) {
+        // 1. 更新导航栏高亮状态
+        const items = document.querySelectorAll('.nav-item');
+        items.forEach(item => item.classList.remove('active'));
+        
+        // 找到同名的导航项一起高亮（为了中英文同步）
+        const index = Array.from(element.parentElement.children).indexOf(element);
+        const zhNav = document.querySelector('.zh').children[index];
+        const enNav = document.querySelector('.en').children[index];
+        if(zhNav) zhNav.classList.add('active');
+        if(enNav) enNav.classList.add('active');
+
+        const homeContent = document.getElementById('home-content');
+        const mdContent = document.getElementById('md-content');
+        const storeArea = document.getElementById('store-download-area');
+        const titleZh = document.getElementById('page-title');
+        const titleEn = document.getElementById('page-title-en');
+        const subtitleZh = document.getElementById('page-subtitle');
+        const subtitleEn = document.getElementById('page-subtitle-en');
+
+        // 2. 根据目标加载内容
+        if (target === 'home') {
+            // 显示首页图文
+            homeContent.style.display = 'block';
+            mdContent.style.display = 'none';
+            storeArea.style.display = 'block';
+            
+            // 恢复标题
+            titleZh.textContent = '用户指南';
+            titleEn.textContent = 'User Guide';
+            subtitleZh.style.display = 'block';
+            subtitleEn.style.display = 'block';
+        } else {
+            // 隐藏首页，显示 MD 容器
+            homeContent.style.display = 'none';
+            storeArea.style.display = 'none';
+            subtitleZh.style.display = 'none';
+            subtitleEn.style.display = 'none';
+            mdContent.style.display = 'block';
+
+            // 设置标题
+            const cleanTitle = target.replace('.md', '');
+            if(cleanTitle === '注意事项') {
+                titleZh.textContent = '注意事项';
+                titleEn.textContent = 'Precautions';
+            } else if(cleanTitle === '已知问题解决方案') {
+                titleZh.textContent = '已知问题解决方案';
+                titleEn.textContent = 'Troubleshooting';
+            }
+
+            // 显示加载中
+            mdContent.innerHTML = '<p style="color:#666;">正在加载内容 (Loading content)...</p>';
+
+            // 3. 使用 fetch 异步获取 Markdown 文件
+            fetch(target)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('无法读取文件: ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    // 使用 marked.js 将 md 转换为 html
+                    mdContent.innerHTML = marked.parse(text);
+                })
+                .catch(error => {
+                    console.error('加载文档失败:', error);
+                    // 友好的错误提示（针对本地双击打开的场景）
+                    mdContent.innerHTML = `
+                        <div class="error-msg">
+                            <h3 style="margin-top:0;">⚠️ 无法加载文档内容</h3>
+                            <p>这通常是因为浏览器的安全限制阻止了直接读取本地文件。</p>
+                            <p><strong>解决方法：</strong>请将这些文件部署到 GitHub Pages 等在线服务器上查看，或者在本地使用 Live Server 等工具运行。</p>
+                            <hr style="border-color:#f9bdbb; margin:10px 0;">
+                            <p style="font-family:monospace; margin-bottom:0; font-size:0.9em;">错误详情: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // 强制刷新一次语言状态，确保标题和组件显示正确
+        switchLang(currentLang);
     }
 </script>
 
