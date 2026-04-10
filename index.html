@@ -273,12 +273,14 @@
         <a class="nav-item active" onclick="loadContent('home', this)">🏠 首页：用户指南</a>
         <a class="nav-item" onclick="loadContent('注意事项.md', this)">⚠️ 注意事项</a>
         <a class="nav-item" onclick="loadContent('已知问题解决方案.md', this)">🛠️ 已知问题解决方案</a>
+        <a class="nav-item" onclick="loadContent('更新日志.md', this)">🛠️ 更新日志</a>
     </div>
 
     <div class="en">
         <a class="nav-item active" onclick="loadContent('home', this)">🏠 Home: User Guide</a>
         <a class="nav-item" onclick="loadContent('注意事项.md', this)">⚠️ Precautions</a>
         <a class="nav-item" onclick="loadContent('已知问题解决方案.md', this)">🛠️ Troubleshooting</a>
+        <a class="nav-item" onclick="loadContent('更新日志.md', this)">🛠️ Release Notes</a>
     </div>
 </nav>
 
@@ -422,11 +424,15 @@
             if(cleanTitle === '注意事项') {
                 titleZh.textContent = '注意事项';
                 titleEn.textContent = 'Precautions';
-            } else if(cleanTitle === '已知问题解决方案') {
+            } 
+            else if(cleanTitle === '已知问题解决方案') {
                 titleZh.textContent = '已知问题解决方案';
                 titleEn.textContent = 'Troubleshooting';
             }
-
+            else if(cleanTitle === '更新日志') {
+                titleZh.textContent = '更新日志';
+                titleEn.textContent = 'Release Notes';
+            }
             // 显示加载中
             mdContent.innerHTML = '<p style="color:#666;">正在加载内容 (Loading content)...</p>';
 
