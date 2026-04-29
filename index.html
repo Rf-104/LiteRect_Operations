@@ -107,6 +107,9 @@
         /* 商店下载按钮样式 */
         .store-btn-container {
             margin-bottom: 20px;
+            display: flex;      /* 使用 flex 布局 */
+            gap: 12px;         /* 按钮之间的间距 */
+            flex-wrap: wrap;    /* 手机端自动换行 */
         }
 
         .store-btn {
@@ -124,8 +127,12 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
+        .store-btn.ms-store { background-color: #111; }
+
+        .store-btn.steam { background-color: #1b2838; }
+
         .store-btn:hover {
-            background-color: #333;
+            background-color: #2a475e;
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
@@ -293,17 +300,26 @@
         <div class="subtitle en" id="page-subtitle-en">Minimalist Desktop Organization Engine</div>
         
         <div class="store-btn-container" id="store-download-area">
-            <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn zh">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/>
-                </svg>
-                在 Microsoft Store 中获取
+            <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn ms-store zh">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/></svg>
+                Microsoft Store
             </a>
-            <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn en">
+            <a href="https://store.steampowered.com/app/4631480/LiteRect/" target="_blank" class="store-btn steam zh">
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/>
+                    <path d="M12 0C5.372 0 0 5.372 0 12c0 2.404.707 4.643 1.921 6.52l4.394-1.808c-.144-.319-.228-.673-.228-1.047 0-1.42 1.15-2.57 2.571-2.57.198 0 .388.026.57.07l2.45-3.52c0-.012-.003-.024-.003-.036 0-1.745 1.415-3.16 3.16-3.16s3.16 1.415 3.16 3.16-1.415 3.16-3.16 3.16c-.012 0-.024 0-.036-.002l-3.52 2.45c.044.182.07.372.07.57 0 1.42-1.15 2.57-2.57 2.57-.375 0-.728-.084-1.047-.228l-1.81 4.394C7.357 23.293 9.596 24 12 24c6.628 0 12-5.372 12-12S18.628 0 12 0zm-2.66 16.326c.725 0 1.314.59 1.314 1.314s-.59 1.314-1.314 1.314-1.314-.59-1.314-1.314.59-1.314 1.314-1.314zm5.503-6.818c1.036 0 1.876.84 1.876 1.876s-.84 1.876-1.876 1.876-1.876-.84-1.876-1.876.84-1.876 1.876-1.876z"/>
                 </svg>
-                Get it from Microsoft Store
+                Steam 商店
+            </a>
+
+            <a href="https://apps.microsoft.com/detail/9NTD9TJP6CMX" target="_blank" class="store-btn ms-store en">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.4 24H0V11.4h11.4V24zM24 24H12.6V11.4H24V24zM11.4 10.6H0V0h11.4v10.6zM24 10.6H12.6V0H24v10.6z"/></svg>
+                Microsoft Store
+            </a>
+            <a href="https://store.steampowered.com/app/4631480/LiteRect/" target="_blank" class="store-btn steam en">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.372 0 0 5.372 0 12c0 2.404.707 4.643 1.921 6.52l4.394-1.808c-.144-.319-.228-.673-.228-1.047 0-1.42 1.15-2.57 2.571-2.57.198 0 .388.026.57.07l2.45-3.52c0-.012-.003-.024-.003-.036 0-1.745 1.415-3.16 3.16-3.16s3.16 1.415 3.16 3.16-1.415 3.16-3.16 3.16c-.012 0-.024 0-.036-.002l-3.52 2.45c.044.182.07.372.07.57 0 1.42-1.15 2.57-2.57 2.57-.375 0-.728-.084-1.047-.228l-1.81 4.394C7.357 23.293 9.596 24 12 24c6.628 0 12-5.372 12-12S18.628 0 12 0zm-2.66 16.326c.725 0 1.314.59 1.314 1.314s-.59 1.314-1.314 1.314-1.314-.59-1.314-1.314.59-1.314 1.314-1.314zm5.503-6.818c1.036 0 1.876.84 1.876 1.876s-.84 1.876-1.876 1.876-1.876-.84-1.876-1.876.84-1.876 1.876-1.876z"/>
+                </svg>
+                Steam Store
             </a>
         </div>
     </header>
